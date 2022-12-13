@@ -1,0 +1,47 @@
+{
+  "name": "docspider-uploader",
+  "version": "1.0.0",
+  "description": "Docspider Document Uploader",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "parcel src/index.html",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nettotkm/upload.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nettotkm/upload/issues"
+  },
+  "homepage": "https://github.com/nettotkm/upload#readme",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.3.1",
+    "parcel": "^2.8.1",
+    "postcss": "^8.4.20",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.2.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.5"
+  }
+}
