@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "parcel src/index.html",
+    "client": "parcel src/index.html",
+    "server": "nodemon src/server.ts",
+    "dev": "run-p client server",
+    "prisma": "prisma studio",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "typecheck": "tsc --noEmit"
@@ -21,7 +24,14 @@
   },
   "homepage": "https://github.com/nettotkm/upload#readme",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-regular-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@tailwindcss/forms": "^0.5.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
@@ -29,19 +39,32 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "npm-run-all": "^4.1.5",
     "parcel": "^2.8.1",
     "postcss": "^8.4.20",
+    "prisma": "^4.7.1",
     "process": "^0.11.10",
     "tailwindcss": "^3.2.4"
   },
   "dependencies": {
+    "@prisma/client": "^4.7.1",
+    "@tanstack/react-query": "^4.20.2",
+    "@trpc/client": "^10.5.0",
+    "@trpc/react-query": "^10.5.0",
+    "@trpc/server": "^10.5.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.5"
+    "react-router-dom": "^6.4.5",
+    "ts-node": "^10.9.1",
+    "zod": "^3.20.2"
   }
 }
