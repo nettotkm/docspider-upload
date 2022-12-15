@@ -1,9 +1,12 @@
 import express from 'express';
+import formidable from "formidable"
+import path from "path";
+import fs from "fs"
 import cors from "cors";
 import { inferAsyncReturnType, initTRPC } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
-
 import { PrismaClient } from '@prisma/client'
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +22,48 @@ const appRouter = t.router({
     const documents = await prisma.document.findMany();
 
     return documents;
+  }),
+  document: t.procedure.input((val: unknown) => {
+    if (typeof val === 'string') return val;
+    throw new Error(`Invalid input: ${typeof val}`);
+  }).query(async (req) => {
+    const input = Number(req.input);
+
+    const document = await prisma.document.findUnique({
+      where: { id: input }
+    });
+
+    return document;
+  }),
+  createDocument: t.procedure.input(z.object({
+    title: z.string().max(100, { message: "Title must have at most 100 characters"}),
+    description: z.string().max(2000, { message: "Description must have at most 2000 characters"}),
+    filename: z.string(),
+    filepath: z.string()
+  })).mutation(async (req) => {
+    const { title, description, filename, filepath } = req.input;
+
+    console.log(filepath)
+    const document = await prisma.document.create({
+      data: { title, description, filename, filepath }
+    });
+
+    return document;
+  }),
+  editDocument: t.procedure.input(z.object({
+    id: z.number(),
+    title: z.string().max(100, { message: "Title must have at most 100 characters"}),
+    description: z.string().max(2000, { message: "Description must have at most 2000 characters"}),
+    filename: z.string().optional()
+  })).mutation(async (req) => {
+    const { id, title, description, filename } = req.input;
+
+    const document = await prisma.document.update({
+      where: { id  },
+      data: { title, description, filename }
+    });
+
+    return document;
   })
 });
 
@@ -33,4 +78,51 @@ app.use(
     createContext,
   }),
 );
+app.get('/:filefolder/:filename/download', (req, res) => {
+  const uploadFolder = path.join(__dirname, '../uploads')
+  res.download(path.join(uploadFolder, req.params.filefolder, req.params.filename))
+})
+app.post('/upload', (req, res) => {
+  const uploadFolder = path.join(__dirname, '../uploads')
+  // create an incoming form object
+  const form = new formidable.IncomingForm({
+    multiples: false,
+    uploadDir: uploadFolder
+  });
+
+  form.parse(req, async (err, fields, files) => {
+    console.log(fields);
+    if (err) {
+      console.log("Error parsing the files");
+      return res.status(400).json({
+        status: "Fail",
+        message: "There was an error parsing the files",
+        error: err,
+      });
+    }
+
+    if (files.file) {
+      const file = files.file as formidable.File;
+      const originalName = (typeof fields.filename  === "string"  ?  fields.filename : null ) || file.originalFilename;
+      
+      if (originalName) {
+        try {
+          // renames the file in the directory
+          fs.mkdirSync(path.join(uploadFolder, "f-" + file.newFilename));
+          fs.renameSync(file.filepath, path.join(uploadFolder, "f-" + file.newFilename ,originalName));
+          return res.status(200).json({
+            status: "success",
+            file: { path: path.join("f-" + file.newFilename ,originalName) },
+          });
+        } catch (error) {
+          console.log(error);
+          res.json({
+            error,
+          });
+        }
+      }
+      
+    }
+  });
+});
 app.listen(4000);

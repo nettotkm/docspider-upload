@@ -15,5 +15,7 @@ model Document {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   title       String   @unique
+  filename    String?
+  filepath    String?
   description String
 }

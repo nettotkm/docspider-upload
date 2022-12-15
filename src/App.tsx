@@ -7,6 +7,7 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleRight,
@@ -22,6 +23,9 @@ import Home from "./Components/Home";
 import Header from "./Components/Header";
 import About from "./Components/About";
 import MyDocuments from "./Components/MyDocuments";
+import EditMyDocument from "./Components/EditMyDocument";
+import ViewMyDocument from "./Components/ViewMyDocument";
+import CreateMyDocument from "./Components/CreateMyDocument";
 
 export const AppContext = createContext<[boolean, (open: boolean) => void]>([
   true,
@@ -31,6 +35,7 @@ export const AppContext = createContext<[boolean, (open: boolean) => void]>([
 const ROUTES_TITLES: { [path: string]: string } = {
   "/": "Início",
   "/my-documents": "Meus Documentos",
+  "/my-documents/:id/edit": "Meus Documentos",
   "/about": "Sobre",
 };
 
@@ -141,7 +146,7 @@ const App = () => {
                       </li>
                       {location.pathname !== "/" && (
                         <>
-                          <li className="items-center text-blue">
+                          <li className="flex items-center text-blue">
                             <FontAwesomeIcon
                               className={` h-[0.5rem] ml-2 ${
                                 location.pathname === "/" ? "hidden" : ""
@@ -149,7 +154,7 @@ const App = () => {
                               icon={faAngleRight}
                             />
                           </li>
-                          <li className="items-center text-gray-low">
+                          <li className="flex items-center text-gray-low">
                             <span className="px-2">
                               {ROUTES_TITLES[location.pathname]}
                             </span>
@@ -162,6 +167,18 @@ const App = () => {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/my-documents" element={<MyDocuments />} />
+                      <Route
+                        path="/my-documents/:id"
+                        element={<ViewMyDocument />}
+                      />
+                      <Route
+                        path="/my-documents/:id/edit"
+                        element={<EditMyDocument />}
+                      />
+                      <Route
+                        path="/my-documents/new"
+                        element={<CreateMyDocument />}
+                      />
                       <Route path="/about" element={<About />} />
                       {/* <Route path="/details/:id" element={<Details />} />
             <Route path="/" element={<SearchParams />} /> */}

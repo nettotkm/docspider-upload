@@ -1,23 +1,26 @@
+import { Link } from "react-router-dom";
 import { trpc } from "../client";
 import Table from "./Table";
 
 export default function MyDocuments() {
-  const response = trpc.documents.useQuery();
-
-  if (!response.data) {
-    return <div>Loading...</div>;
-  }
+  const { data } = trpc.documents.useQuery();
 
   return (
-    <Table
-      header={{
-        id: "ID",
-        createdAt: "Criado em",
-        updatedAt: "Atualizado em",
-        title: "Título",
-        description: "Descrição",
-      }}
-      data={response.data}
-    ></Table>
+    <div>
+      <Link className="  text-blue " to="/my-documents/new">
+        New Upload
+      </Link>
+      <Table
+        header={{
+          // id: "ID",
+          title: "Título",
+          description: "Descrição",
+          filename: "Nome do Arquivo",
+          createdAt: "Criado em",
+          // updatedAt: "Atualizado em",
+        }}
+        data={data || []}
+      ></Table>
+    </div>
   );
 }
