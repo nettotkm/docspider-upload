@@ -30,4 +30,8 @@ Para rodar os testes, execute: `npm run e2e`
 
 ## Escolhas de arquitetura
 
-* 
+* Escolhi criar a aplicação em React para demonstrar bom conhecimento do framework.
+* Preferi usar React puro sem um framework web por trás para que a avaliação não seja completamente enviesada.
+* Para o backend escolhi o tRPC, que permite criar endpoints de maneira rápida e que sejam typesafe.
+* Para o CSS, preferi usar o Tailwind porque ele permite uma rápida iteração de estilo sem que seja necessário um arcabouço de Design System pronto
+* Como banco de dados, escolhi sqlite, por ser relativamente fácil configurar e também por ser uma tecnologia ubíqua. O ORM usado no projeto é o Prisma.
