@@ -74,7 +74,7 @@ const Table: React.FC<{
                       </a>
                     ) : (
                       <FontAwesomeIcon
-                        className="w-4 text-gray-low cursor-not-allowed"
+                        className="w-4 text-gray-200 cursor-not-allowed"
                         icon={faFileArrowDown}
                       />
                     )}

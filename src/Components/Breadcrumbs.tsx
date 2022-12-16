@@ -19,7 +19,7 @@ const MyDocuments = (link?: boolean) => {
           <span className="px-2">Meus Documentos</span>
         </Link>
       ) : (
-        <li className="flex items-center text-gray-low">
+        <li className="flex items-center text-gray-200">
           <span className="px-2">Meus Documentos</span>
         </li>
       )}
@@ -32,7 +32,7 @@ const NewDocument = () => {
     <>
       {MyDocuments(true)}
       <Icon />
-      <li className="flex items-center text-gray-low">
+      <li className="flex items-center text-gray-200">
         <span className="px-2">Novo</span>
       </li>
     </>
@@ -44,7 +44,7 @@ const EditDocument = () => {
     <>
       {MyDocuments(true)}
       <Icon />
-      <li className="flex items-center text-gray-low">
+      <li className="flex items-center text-gray-200">
         <span className="px-2">Editar</span>
       </li>
     </>
@@ -56,7 +56,7 @@ const ViewDocument = () => {
     <>
       {MyDocuments(true)}
       <Icon />
-      <li className="flex items-center text-gray-low">
+      <li className="flex items-center text-gray-200">
         <span className="px-2">Detalhes</span>
       </li>
     </>
@@ -67,7 +67,7 @@ const About = () => {
   return (
     <>
       <Icon />
-      <li className="flex items-center text-gray-low">
+      <li className="flex items-center text-gray-200">
         <span className="px-2">About</span>
       </li>
     </>

@@ -4,10 +4,14 @@ module.exports = {
   theme: {
     colors: {
       white: "#FFFFFF",
-      black: "#000000",
+      black: {
+        100:"#000000",
+        200: "#131313",
+        300: "#212121"
+      },
       gray: {
         DEFAULT: "#F0F0F0",
-        low: "#999999",
+        200: "#999999",
         100: "#f5f5f5"
       },
       red: {

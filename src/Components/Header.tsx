@@ -8,7 +8,7 @@ import { AppContext } from "../App";
 export default function Header() {
   const [open, setOpen] = useContext(AppContext);
   return (
-    <div className="bg-blue p-4 flex items-center">
+    <div className="bg-gradient-to-r from-blue-300 to-blue p-4 flex items-center">
       <FontAwesomeIcon
         className="text-white h-[1.5rem] mr-4 cursor-pointer"
         icon={faBars}

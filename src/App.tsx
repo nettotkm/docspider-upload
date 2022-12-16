@@ -72,12 +72,12 @@ const App = () => {
                 } h-full`}
               >
                 <ul>
-                  <li className="items-center  text-gray-low text-sm p-2 border-b border-gray ">
+                  <li className="items-center  text-gray-200 text-sm p-2 border-b border-gray ">
                     <Link
                       className={`flex justify-between hover:text-blue ${
                         location.pathname === "/"
                           ? "text-blue"
-                          : "text-gray-low"
+                          : "text-gray-200"
                       }`}
                       to="/"
                     >
@@ -88,12 +88,12 @@ const App = () => {
                       />
                     </Link>
                   </li>
-                  <li className="items-center text-gray-low text-sm p-2 border-b border-gray">
+                  <li className="items-center text-gray-200 text-sm p-2 border-b border-gray">
                     <Link
                       className={`flex justify-between ${
                         location.pathname === "/my-documents"
                           ? "text-blue"
-                          : "text-gray-low"
+                          : "text-gray-200"
                       }`}
                       to="/my-documents"
                     >
@@ -106,9 +106,9 @@ const App = () => {
                       />
                     </Link>
                   </li>
-                  <li className=" items-center text-gray-low text-sm p-2 border-b border-gray">
+                  <li className=" items-center text-gray-200 text-sm p-2 border-b border-gray">
                     <button
-                      className={`flex justify-between hover:text-blue text-gray-low w-full`}
+                      className={`flex justify-between hover:text-blue text-gray-200 w-full`}
                       onClick={() => setShowAboutModal(true)}
                     >
                       <span className={`${open ? "" : "hidden"}`}>Sobre</span>

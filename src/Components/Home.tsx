@@ -1,7 +1,4 @@
-import { FunctionComponent } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-
+import upload from "../assets/upload.png";
 export default function Home() {
   return (
     <div className="container">
@@ -16,6 +13,9 @@ export default function Home() {
             Uploader é a melhor solução para armazenamento de documentos em
             nuvem.
           </p>
+          <div className="">
+            <img src={upload} alt="logo" className=" mt-8" />
+          </div>
         </div>
       </div>
     </div>

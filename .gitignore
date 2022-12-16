@@ -7,3 +7,6 @@ coverage/
 .vscode/
 uploads/*
 !uploads/.keep
+/test-results/
+/playwright-report/
+/playwright/.cache/
