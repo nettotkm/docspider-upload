@@ -39,13 +39,15 @@ const appRouter = t.router({
     title: z.string().max(100, { message: "Título deve ter no máximo 100 caracteres"}),
     description: z.string().max(2000, { message: "Descrição deve ter no máximo 2000 caracteres"}),
     filename: z.string().optional(),
-    filepath: z.string().optional()
+    filepath: z.string().optional(),
+    filetype: z.string().optional(),
+    fileext: z.string().optional()
   })).mutation(async (req) => {
-    const { title, description, filename, filepath } = req.input;
+    const { title, description, filename, filepath, fileext, filetype } = req.input;
 
     try {
       const document = await prisma.document.create({
-        data: { title, description, filename, filepath }
+        data: { title, description, filename, filepath, fileext, filetype }
       });
   
       return { success: true, document, error: null } ;

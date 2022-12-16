@@ -15,12 +15,10 @@ export default function MyDocuments() {
       </Link>
       <Table
         header={{
-          // id: "ID",
           title: "Título",
           description: "Descrição",
           filename: "Nome do Arquivo",
           createdAt: "Criado em",
-          // updatedAt: "Atualizado em",
         }}
         data={data || []}
       ></Table>

@@ -84,7 +84,7 @@ export default function DeleteMyDocument(props: Props) {
 
   if (mutation.data?.success) {
     // return <Navigate to="/my-documents" />;
-    window.location.reload();
+    window.location.href = "/my-documents";
   }
 
   return (

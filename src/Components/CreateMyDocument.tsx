@@ -20,6 +20,8 @@ export default function CreateMyDocument() {
         const originalFile = file.current.files[0];
         const nameWithoutExt = originalFile.name.replace(/\.([a-z.]+)/, "");
         const ext = originalFile.name.replace(nameWithoutExt, "");
+        const type = originalFile.type;
+        console.log(ext, type);
         formData.append("file", originalFile);
         formData.append("filename", `${filename}${ext}`);
         const response = await fetch("http://localhost:4000/upload", {
@@ -29,11 +31,21 @@ export default function CreateMyDocument() {
         const payload = await response.json();
         const { path } = payload.file;
 
+        console.log({
+          title,
+          description,
+          filename,
+          filepath: path,
+          filetype: type,
+          fileext: ext,
+        });
         await mutation.mutate({
           title,
           description,
           filename,
           filepath: path,
+          filetype: type,
+          fileext: ext,
         });
       } else {
         await mutation.mutate({
@@ -174,10 +186,6 @@ export default function CreateMyDocument() {
                   const name = evt.target.files
                     ? evt.target.files[0].name
                     : null;
-
-                  if (evt.target.files) {
-                    console.log(evt.target.files[0]);
-                  }
 
                   if (name) {
                     const nameWithoutExt = name.replace(/\.([a-z.]+)/, "");

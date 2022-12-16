@@ -80,13 +80,12 @@ const Table: React.FC<{
                     )}
                     <button
                       onClick={(evt) => {
-                        console.log("hiiiiiii", items.id, typeof currentRow);
                         setCurrentRow(items.id);
                         setShowDeletionModal(true);
                       }}
                     >
                       <FontAwesomeIcon
-                        className=" w-4 ml-2 text-red"
+                        className=" w-4 text-red"
                         icon={faTrash}
                       />
                     </button>

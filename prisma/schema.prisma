@@ -17,5 +17,7 @@ model Document {
   title       String   @unique
   filename    String?
   filepath    String?
+  fileext     String?
+  filetype    String?
   description String
 }
