@@ -35,6 +35,7 @@ export const AppContext = createContext<[boolean, (open: boolean) => void]>([
 
 const App = () => {
   const [open, setOpen] = useState(true);
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
   const location = useLocation();
 
@@ -71,9 +72,9 @@ const App = () => {
                 } h-full`}
               >
                 <ul>
-                  <li className="items-center text-gray-low text-sm p-2 border-b border-gray ">
+                  <li className="items-center  text-gray-low text-sm p-2 border-b border-gray ">
                     <Link
-                      className={`flex justify-between ${
+                      className={`flex justify-between hover:text-blue ${
                         location.pathname === "/"
                           ? "text-blue"
                           : "text-gray-low"
@@ -106,20 +107,16 @@ const App = () => {
                     </Link>
                   </li>
                   <li className=" items-center text-gray-low text-sm p-2 border-b border-gray">
-                    <Link
-                      className={`flex justify-between ${
-                        location.pathname === "/about"
-                          ? "text-blue"
-                          : "text-gray-low"
-                      }`}
-                      to="/about"
+                    <button
+                      className={`flex justify-between hover:text-blue text-gray-low w-full`}
+                      onClick={() => setShowAboutModal(true)}
                     >
                       <span className={`${open ? "" : "hidden"}`}>Sobre</span>
                       <FontAwesomeIcon
                         className=" h-[1rem] ml-2"
                         icon={faCircleInfo}
                       />
-                    </Link>
+                    </button>
                   </li>
                 </ul>
               </nav>
@@ -144,12 +141,14 @@ const App = () => {
                         path="/my-documents/new"
                         element={<CreateMyDocument />}
                       />
-                      <Route path="/about" element={<About />} />
                     </Routes>
                   </div>
                 </div>
               </main>
             </div>
+            {showAboutModal ? (
+              <About onClose={() => setShowAboutModal(false)} />
+            ) : null}
           </AppContext.Provider>
         </QueryClientProvider>
       </trpc.Provider>
