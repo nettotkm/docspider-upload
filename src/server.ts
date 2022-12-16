@@ -6,7 +6,7 @@ import cors from "cors";
 import { inferAsyncReturnType, initTRPC } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { Prisma, PrismaClient } from '@prisma/client'
-import { z, ZodError } from "zod";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
@@ -72,6 +72,17 @@ const appRouter = t.router({
     });
 
     return document;
+  }),
+  deleteDocument: t.procedure.input(z.object({ 
+    id: z.number()
+  })).mutation(async (req) => {
+    const { id } = req.input;
+
+    const document = await prisma.document.delete({
+      where: { id }
+    });
+
+    return { success: true, document };
   })
 });
 

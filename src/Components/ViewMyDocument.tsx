@@ -1,11 +1,6 @@
-import {
-  faFilePen,
-  faEye,
-  faFileArrowDown,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowDown, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { trpc } from "../client";
 
 export default function ViewMyDocument() {
