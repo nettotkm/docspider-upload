@@ -10,9 +10,8 @@
 </p>
 
 ## Para todas as coisas que valem a pena compartilhar o Document Uploader pode ajudar.
-### 
 
-## Como rodar a aplicação
+## 🛠️ Como rodar a aplicação
 
 1. Entre na linha de comando e execute:
 
