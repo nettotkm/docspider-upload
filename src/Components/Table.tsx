@@ -19,6 +19,12 @@ interface DataEntries {
   [k: string]: DataEntry;
 }
 
+const timeFormatter = (date: string) =>
+  new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(new Date(date));
+
 const Table: React.FC<{
   header: DataHeader;
   data: DataEntries[];
@@ -29,6 +35,7 @@ const Table: React.FC<{
   return (
     <>
       <table
+        data-testid="my-documents"
         className="
     table-auto border-collapse border border-slate-300"
       >
@@ -49,7 +56,9 @@ const Table: React.FC<{
                 {Object.keys(props.header).map((header, j) => {
                   return (
                     <td key={j} className="p-2">
-                      {items[header]}
+                      {header === "createdAt"
+                        ? timeFormatter(items[header] as string)
+                        : items[header]}
                     </td>
                   );
                 })}
@@ -79,6 +88,7 @@ const Table: React.FC<{
                       />
                     )}
                     <button
+                      data-testid="destroy-document"
                       onClick={(evt) => {
                         setCurrentRow(items.id);
                         setShowDeletionModal(true);

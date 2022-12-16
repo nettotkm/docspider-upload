@@ -8,10 +8,11 @@ export default function MyDocuments() {
   return (
     <div className="flex flex-col">
       <Link
+        data-testid="new-document"
         className="text-blue border rounded p-2 ml-auto mb-4"
         to="/my-documents/new"
       >
-        New Upload
+        Novo Documento
       </Link>
       <Table
         header={{
@@ -26,7 +27,7 @@ export default function MyDocuments() {
         className="text-blue border rounded p-2 ml-auto mt-4 mb-8"
         to="/my-documents/new"
       >
-        New Upload
+        Novo Documento
       </Link>
     </div>
   );
