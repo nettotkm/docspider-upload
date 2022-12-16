@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { trpc } from "../client";
 
 export default function CreateMyDocument() {
@@ -7,60 +7,123 @@ export default function CreateMyDocument() {
   const [description, setDescription] = useState("");
   const [filename, setFilename] = useState("");
   const [originalName, setOriginalName] = useState("");
+  const [errors, setErrors] = useState<{ [k: string]: string }>({});
   const file = useRef<HTMLInputElement>(null);
-
   const mutation = trpc.createDocument.useMutation();
 
   async function createDocument() {
-    if (file.current && file.current.files) {
-      const formData = new FormData();
-      const originalFile = file.current.files[0];
-      const nameWithoutExt = originalFile.name.replace(/\.([a-z.]+)/, "");
-      const ext = originalFile.name.replace(nameWithoutExt, "");
-      formData.append("file", originalFile);
-      formData.append("filename", `${filename}${ext}`);
-      const response = await fetch("http://localhost:4000/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const payload = await response.json();
-      const { path } = payload.file;
+    setErrors({});
 
-      const document = await mutation.mutate({
-        title,
-        description,
-        filename,
-        filepath: path,
-      });
+    try {
+      if (file.current && file.current.files && file.current.files[0]) {
+        const formData = new FormData();
+        const originalFile = file.current.files[0];
+        const nameWithoutExt = originalFile.name.replace(/\.([a-z.]+)/, "");
+        const ext = originalFile.name.replace(nameWithoutExt, "");
+        formData.append("file", originalFile);
+        formData.append("filename", `${filename}${ext}`);
+        const response = await fetch("http://localhost:4000/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const payload = await response.json();
+        const { path } = payload.file;
+
+        await mutation.mutate({
+          title,
+          description,
+          filename,
+          filepath: path,
+        });
+      } else {
+        await mutation.mutate({
+          title,
+          description,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  useEffect(() => {
+    let _errors: { [k: string]: string } = {};
+    if (mutation.error?.message) {
+      const payload = JSON.parse(mutation.error?.message);
+      for (let i = 0; i < payload.length; i++) {
+        const error = payload[i];
+        _errors = { ..._errors, [error.path[0]]: error.message };
+      }
+    }
+    if (mutation.data?.error?.code === "P2002") {
+      const fields = mutation.data.error.meta?.target || ([] as string[]);
+
+      for (let i = 0; i < fields.length; i++) {
+        _errors = { ..._errors, [fields[i]]: "unique" };
+      }
+    }
+
+    setErrors(_errors);
+  }, [
+    mutation.mutate,
+    mutation.error?.message,
+    mutation.data?.error?.code,
+    mutation.data?.error?.meta?.target,
+  ]);
+
+  if (mutation.data?.success) {
+    return <Navigate to="/my-documents" />;
   }
 
   return (
     <div>
       <div>
         <form className="flex flex-col">
-          <label htmlFor="title">Título</label>
+          <label htmlFor="title" className={errors.title && "text-red"}>
+            Título
+          </label>
           <input
             name="title"
+            className={errors.title && "text-red !border-red"}
             type="text"
             value={title}
             onChange={(evt) => {
               setTitle(evt.target.value);
             }}
+            onFocus={() => {
+              setErrors({});
+            }}
           />
-          <label htmlFor="description" className="mt-2">
+          {errors.title && errors.title === "unique" && (
+            <span className="text-red text-xs mt-1">
+              Título já está sendo usado
+            </span>
+          )}
+          {errors.title && errors.title !== "unique" && (
+            <span className="text-red text-xs mt-1">{errors.title}</span>
+          )}
+          <label
+            htmlFor="description"
+            className={`mt-2 ${errors.description && "text-red"}`}
+          >
             Descrição
           </label>
-          <input
+          <textarea
             name="description"
-            type="text"
+            maxLength={2000}
+            rows={9}
             value={description}
+            className={errors.description && "border-red text-red"}
             onChange={(evt) => {
               setDescription(evt.target.value);
             }}
+            onFocus={() => {
+              setErrors({});
+            }}
           />
-          {/* <label>Arquivo</label>
-          <input type="text" /> */}
+          {errors.description && (
+            <span className="text-red text-xs mt-1">{errors.description}</span>
+          )}
           <label htmlFor="filename" className="mt-2">
             Nome do Arquivo
           </label>
@@ -128,14 +191,14 @@ export default function CreateMyDocument() {
             </label>
           </div>
           <button
-            className="self-end border border-blue text-blue rounded p-2 mt-4 mr-4 bg-white hover:bg-blue hover:text-white"
+            className="self-end border border-blue text-blue rounded p-2 mt-4 bg-white hover:bg-blue hover:text-white"
             type="submit"
             onClick={(evt) => {
               evt.preventDefault();
               createDocument();
             }}
           >
-            Upload
+            Create Document
           </button>
         </form>
       </div>

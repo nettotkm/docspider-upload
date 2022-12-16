@@ -25,7 +25,7 @@ const Table: React.FC<{
   return (
     <table
       className="
-    table-auto border-collapse border border-slate-300 m-auto "
+    table-auto border-collapse border border-slate-300"
     >
       <thead>
         <tr className="bg-blue text-white ">
@@ -49,27 +49,32 @@ const Table: React.FC<{
                 );
               })}
               <td className="text-blue">
-                <Link to={`/my-documents/${items.id}/edit`}>
-                  <FontAwesomeIcon
-                    className=" h-[1rem] ml-2"
-                    icon={faFilePen}
-                  />
-                </Link>
+                <div className="space-x-4 flex justify-end items-center mr-4">
+                  <Link to={`/my-documents/${items.id}/edit`} className="w-4">
+                    <FontAwesomeIcon className="w-4" icon={faFilePen} />
+                  </Link>
 
-                <Link to={`/my-documents/${items.id}`}>
-                  <FontAwesomeIcon className=" h-[1rem] ml-2" icon={faEye} />
-                </Link>
+                  <Link to={`/my-documents/${items.id}`} className="w-4">
+                    <FontAwesomeIcon className="w-4" icon={faEye} />
+                  </Link>
 
-                <a href={`http://localhost:4000/${items.filepath}/download`}>
+                  {items.filepath ? (
+                    <a
+                      href={`http://localhost:4000/${items.filepath}/download`}
+                    >
+                      <FontAwesomeIcon className="w-4" icon={faFileArrowDown} />
+                    </a>
+                  ) : (
+                    <FontAwesomeIcon
+                      className="w-4 text-gray-low cursor-not-allowed"
+                      icon={faFileArrowDown}
+                    />
+                  )}
                   <FontAwesomeIcon
-                    className=" h-[1rem] ml-2 "
-                    icon={faFileArrowDown}
+                    className=" w-4 ml-2 text-red"
+                    icon={faTrash}
                   />
-                </a>
-                <FontAwesomeIcon
-                  className=" h-[1rem] ml-2 text-red mr-2"
-                  icon={faTrash}
-                />
+                </div>
               </td>
             </tr>
           );

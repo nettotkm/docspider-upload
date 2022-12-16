@@ -26,18 +26,12 @@ import MyDocuments from "./Components/MyDocuments";
 import EditMyDocument from "./Components/EditMyDocument";
 import ViewMyDocument from "./Components/ViewMyDocument";
 import CreateMyDocument from "./Components/CreateMyDocument";
+import Breadcrumbs from "./Components/Breadcrumbs";
 
 export const AppContext = createContext<[boolean, (open: boolean) => void]>([
   true,
   () => {},
 ]);
-
-const ROUTES_TITLES: { [path: string]: string } = {
-  "/": "Início",
-  "/my-documents": "Meus Documentos",
-  "/my-documents/:id/edit": "Meus Documentos",
-  "/about": "Sobre",
-};
 
 const App = () => {
   const [open, setOpen] = useState(true);
@@ -57,12 +51,6 @@ const App = () => {
       links: [
         httpBatchLink({
           url: "http://localhost:4000/trpc",
-          // optional
-          // headers() {
-          //   return {
-          //     authorization: getAuthCookie(),
-          //   };
-          // },
         }),
       ],
     })
@@ -76,7 +64,7 @@ const App = () => {
             <header>
               <Header></Header>
             </header>
-            <div className="flex h-screen">
+            <div className="flex h-screen pb-4">
               <nav
                 className={`border-r border-gray max-md:absolute max-md:z-10 bg-white ${
                   open ? "" : "max-md:hidden"
@@ -138,30 +126,7 @@ const App = () => {
               <main className="container py-4 px-2">
                 <div className="grid grid-cols-12 gap-x-2">
                   <div className="col-span-12">
-                    <ul className="flex text-xs p-2">
-                      <li className="items-center text-blue ">
-                        <Link className={``} to="/">
-                          {ROUTES_TITLES["/"]}
-                        </Link>
-                      </li>
-                      {location.pathname !== "/" && (
-                        <>
-                          <li className="flex items-center text-blue">
-                            <FontAwesomeIcon
-                              className={` h-[0.5rem] ml-2 ${
-                                location.pathname === "/" ? "hidden" : ""
-                              }`}
-                              icon={faAngleRight}
-                            />
-                          </li>
-                          <li className="flex items-center text-gray-low">
-                            <span className="px-2">
-                              {ROUTES_TITLES[location.pathname]}
-                            </span>
-                          </li>
-                        </>
-                      )}
-                    </ul>
+                    <Breadcrumbs />
                   </div>
                   <div className="col-span-12">
                     <Routes>
@@ -180,8 +145,6 @@ const App = () => {
                         element={<CreateMyDocument />}
                       />
                       <Route path="/about" element={<About />} />
-                      {/* <Route path="/details/:id" element={<Details />} />
-            <Route path="/" element={<SearchParams />} /> */}
                     </Routes>
                   </div>
                 </div>

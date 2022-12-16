@@ -6,8 +6,11 @@ export default function MyDocuments() {
   const { data } = trpc.documents.useQuery();
 
   return (
-    <div>
-      <Link className="  text-blue " to="/my-documents/new">
+    <div className="flex flex-col">
+      <Link
+        className="text-blue border rounded p-2 ml-auto mb-4"
+        to="/my-documents/new"
+      >
         New Upload
       </Link>
       <Table
@@ -21,6 +24,12 @@ export default function MyDocuments() {
         }}
         data={data || []}
       ></Table>
+      <Link
+        className="text-blue border rounded p-2 ml-auto mt-4 mb-8"
+        to="/my-documents/new"
+      >
+        New Upload
+      </Link>
     </div>
   );
 }

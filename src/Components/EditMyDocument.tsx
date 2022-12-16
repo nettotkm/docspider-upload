@@ -12,7 +12,6 @@ export default function EditMyDocument() {
   const mutation = trpc.editDocument.useMutation();
 
   useEffect(() => {
-    console.log("hello :DDD");
     if (id && data) {
       const document = data;
       setTitle(document.title);
@@ -50,18 +49,21 @@ export default function EditMyDocument() {
               setTitle(evt.target.value);
             }}
           />
-          <label htmlFor="description">Descrição</label>
-          <input
+          <label htmlFor="description" className="mt-2">
+            Descrição
+          </label>
+          <textarea
             name="description"
-            type="text"
+            maxLength={2000}
+            rows={9}
             value={description}
             onChange={(evt) => {
               setDescription(evt.target.value);
             }}
           />
-          {/* <label>Arquivo</label>
-          <input type="text" /> */}
-          <label htmlFor="filename">Nome do Arquivo</label>
+          <label htmlFor="filename" className="mt-2">
+            Nome do Arquivo
+          </label>
           <input
             name="filename"
             type="text"
@@ -70,7 +72,7 @@ export default function EditMyDocument() {
               setFilename(evt.target.value);
             }}
           />
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-full mt-4">
             <label
               htmlFor="dropzone-file"
               className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"

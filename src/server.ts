@@ -5,8 +5,8 @@ import fs from "fs"
 import cors from "cors";
 import { inferAsyncReturnType, initTRPC } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { PrismaClient } from '@prisma/client'
-import { z } from "zod";
+import { Prisma, PrismaClient } from '@prisma/client'
+import { z, ZodError } from "zod";
 
 const prisma = new PrismaClient();
 
@@ -36,24 +36,32 @@ const appRouter = t.router({
     return document;
   }),
   createDocument: t.procedure.input(z.object({
-    title: z.string().max(100, { message: "Title must have at most 100 characters"}),
-    description: z.string().max(2000, { message: "Description must have at most 2000 characters"}),
-    filename: z.string(),
-    filepath: z.string()
+    title: z.string().max(100, { message: "Título deve ter no máximo 100 caracteres"}),
+    description: z.string().max(2000, { message: "Descrição deve ter no máximo 2000 caracteres"}),
+    filename: z.string().optional(),
+    filepath: z.string().optional()
   })).mutation(async (req) => {
     const { title, description, filename, filepath } = req.input;
 
-    console.log(filepath)
-    const document = await prisma.document.create({
-      data: { title, description, filename, filepath }
-    });
+    try {
+      const document = await prisma.document.create({
+        data: { title, description, filename, filepath }
+      });
+  
+      return { success: true, document, error: null } ;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        return { success: false, document: null, error: error };
+      }
 
-    return document;
+      
+      throw error;
+    }    
   }),
   editDocument: t.procedure.input(z.object({
     id: z.number(),
-    title: z.string().max(100, { message: "Title must have at most 100 characters"}),
-    description: z.string().max(2000, { message: "Description must have at most 2000 characters"}),
+    title: z.string().max(100, { message: "Título deve ter no máximo 100 caracteres"}),
+    description: z.string().max(2000, { message: "Descrição deve ter no máximo 2000 caracteres"}),
     filename: z.string().optional()
   })).mutation(async (req) => {
     const { id, title, description, filename } = req.input;
@@ -82,6 +90,9 @@ app.get('/:filefolder/:filename/download', (req, res) => {
   const uploadFolder = path.join(__dirname, '../uploads')
   res.download(path.join(uploadFolder, req.params.filefolder, req.params.filename))
 })
+// app.post('/:filefolder/:filename/rename', (req, res) => {
+
+// })
 app.post('/upload', (req, res) => {
   const uploadFolder = path.join(__dirname, '../uploads')
   // create an incoming form object
