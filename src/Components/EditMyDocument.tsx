@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { trpc } from "../client";
+import { faFileArrowDown, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Document } from "../document";
+import DeleteMyDocument from "./DeleteMyDocument";
 
 export default function EditMyDocument() {
+  const [showDeletionModal, setShowDeletionModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [filename, setFilename] = useState("");
-
+  const [document, setDocument] = useState<Document>({
+    title: "",
+    description: "",
+  } as Document);
   const { id } = useParams();
-  const { data, error } = trpc.document.useQuery(id || "");
+  const { data } = trpc.document.useQuery(id || "");
+
   const mutation = trpc.editDocument.useMutation();
 
   useEffect(() => {
     if (id && data) {
       const document = data;
+      setDocument(document as Document);
       setTitle(document.title);
       setDescription(document.description);
       setFilename(document.filename || "");
@@ -40,7 +50,9 @@ export default function EditMyDocument() {
     <div>
       <div>
         <form className="flex flex-col">
-          <label htmlFor="title">Título</label>
+          <label htmlFor="title" className="font-bold">
+            Título
+          </label>
           <input
             name="title"
             type="text"
@@ -49,7 +61,7 @@ export default function EditMyDocument() {
               setTitle(evt.target.value);
             }}
           />
-          <label htmlFor="description" className="mt-2">
+          <label htmlFor="description" className="mt-2 font-bold">
             Descrição
           </label>
           <textarea
@@ -61,7 +73,7 @@ export default function EditMyDocument() {
               setDescription(evt.target.value);
             }}
           />
-          <label htmlFor="filename" className="mt-2">
+          <label htmlFor="filename" className="mt-2 font-bold">
             Nome do Arquivo
           </label>
           <input
@@ -72,7 +84,21 @@ export default function EditMyDocument() {
               setFilename(evt.target.value);
             }}
           />
-          <div className="flex items-center justify-center w-full mt-4">
+          {document.filepath ? (
+            <div className="inline-flex items-center mt-2">
+              <a
+                className="inline-flex items-center underline mr-4"
+                href={`http://localhost:4000/${document.filepath}/download`}
+              >
+                <span className="mr-2">
+                  {document.filename}
+                  {document.fileext}
+                </span>
+                <FontAwesomeIcon className="w-4" icon={faFileArrowDown} />
+              </a>
+            </div>
+          ) : null}
+          <div className="flex items-center justify-center w-full mt-5">
             <label
               htmlFor="dropzone-file"
               className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -94,8 +120,10 @@ export default function EditMyDocument() {
                   ></path>
                 </svg>
                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
+                  <span className="font-semibold">
+                    Clicar aqui para realizar upload
+                  </span>{" "}
+                  ou arraste
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -104,17 +132,35 @@ export default function EditMyDocument() {
               <input id="dropzone-file" type="file" className="hidden" />
             </label>
           </div>
-          <button
-            className="self-end border border-blue text-blue rounded p-2 mt-4  bg-white hover:bg-blue hover:text-white"
-            type="submit"
-            onClick={(evt) => {
-              evt.preventDefault();
-              saveDocument();
-            }}
-          >
-            Save Document
-          </button>
+
+          <div className="self-end mt-4  flex items-center">
+            <button
+              className="rounded p-2  px-6  text-white bg-red mr-4 font-bold"
+              onClick={(evt) => {
+                evt.preventDefault();
+                setShowDeletionModal(true);
+              }}
+            >
+              Destruir
+            </button>
+            <button
+              className="border font-bold border-blue text-blue rounded p-2 px-6  bg-white hover:bg-blue hover:text-white"
+              type="submit"
+              onClick={(evt) => {
+                evt.preventDefault();
+                saveDocument();
+              }}
+            >
+              Salvar
+            </button>
+          </div>
         </form>
+        {showDeletionModal ? (
+          <DeleteMyDocument
+            onClose={() => setShowDeletionModal(false)}
+            documentId={document.id.toString()}
+          />
+        ) : null}
       </div>
     </div>
   );

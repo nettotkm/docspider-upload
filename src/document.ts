@@ -1,4 +1,5 @@
 export interface Document {
+  id: number;
   title: string;
   description: string;
   filename?: string;
