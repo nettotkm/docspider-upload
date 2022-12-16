@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { FunctionComponent } from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";

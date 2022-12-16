@@ -9,7 +9,7 @@ export default function MyDocuments() {
     <div className="flex flex-col">
       <Link
         data-testid="new-document"
-        className="text-blue border rounded p-2 ml-auto mb-4"
+        className="text-blue border rounded border-blue p-2 ml-auto mb-4 hover:bg-blue hover:text-white"
         to="/my-documents/new"
       >
         Novo Documento
@@ -24,7 +24,7 @@ export default function MyDocuments() {
         data={data || []}
       ></Table>
       <Link
-        className="text-blue border rounded p-2 ml-auto mt-4 mb-8"
+        className="text-blue border border-blue rounded p-2 ml-auto mt-4 mb-8 hover:bg-blue hover:text-white"
         to="/my-documents/new"
       >
         Novo Documento

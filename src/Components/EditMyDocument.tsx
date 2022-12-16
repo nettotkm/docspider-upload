@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { trpc } from "../client";
-import { faFileArrowDown, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Document } from "../document";
 import DeleteMyDocument from "./DeleteMyDocument";

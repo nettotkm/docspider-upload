@@ -10,7 +10,6 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleRight,
   faCircleInfo,
   faHouse,
   faPaste,
@@ -38,13 +37,6 @@ const App = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
 
   const location = useLocation();
-
-  console.log("hash", location.hash);
-  console.log("pathname", location.pathname);
-  console.log("search", location.search);
-
-  const refatLocation = location.pathname.toString().replace("/", "");
-  console.log("ref", refatLocation);
 
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>

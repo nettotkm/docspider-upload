@@ -2,7 +2,6 @@ import {
   faEye,
   faFileArrowDown,
   faFilePen,
-  faHouse,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -89,6 +88,7 @@ const Table: React.FC<{
                     )}
                     <button
                       data-testid="destroy-document"
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
                       onClick={(evt) => {
                         setCurrentRow(items.id);
                         setShowDeletionModal(true);

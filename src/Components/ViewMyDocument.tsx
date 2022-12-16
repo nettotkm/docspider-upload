@@ -57,6 +57,7 @@ export default function ViewMyDocument() {
               <FontAwesomeIcon className="w-4" icon={faFileArrowDown} />
             </a>
             <button
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               onClick={(evt) => {
                 setShowDeletionModal(true);
               }}
